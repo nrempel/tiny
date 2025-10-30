@@ -34,7 +34,16 @@ Tiny is a cheeky static site generator in one shell script. It slices `content.m
 - Swap in your own `styles.css` or link to hosted fonts.
 - Duplicate `content.md` / `template.html` pairs and wrap Tiny in a small loop if you need multiple pages.
 - `CMARK` env var lets you point to a custom `cmark` binary: `CMARK=/path/to/cmark ./build.sh`.
+- Preview locally with the Python web server that ships on most systems:
+  ```sh
+  python3 -m http.server 8000
+  ```
+  Then open <http://localhost:8000>.
 
 ### Why Tiny?
 
 When you just want to ship a handcrafted page with zero build chains, Tiny keeps the tooling out of the way. Fork it, customize the copy, and publish—no frameworks or bundlers required.
+
+—
+
+Built by [@nbrempel](https://x.com/nbrempel).
