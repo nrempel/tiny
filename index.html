@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tiny · One-file static sites</title>
+    <meta name="description" content="The smallest possible generator for single-page static sites powered by cmark.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header>
+      <h1>Tiny · One-file static sites</h1>
+      <p>Tiny slices your markdown into sections and drops them into a template. Nothing more, nothing less.</p>
+    </header>
+    <main>
+      <h3>Why</h3>
+<p>Sometimes you just want to ship a handcrafted page without juggling frameworks, build caches, or sprawling dependency graphs.</p>
+<h3>How</h3>
+<ul>
+<li>Author sections in markdown with <code>##</code> headings.</li>
+<li>Reference those sections in the template with placeholders like <code>{{render:story}}</code> or <code>{{plain:site-title}}</code>.</li>
+<li>Run <code>./build.sh</code> and open <code>index.html</code>.</li>
+</ul>
+<h3>When</h3>
+<p>Use Tiny when you need a story-driven landing page, a personal bio, or a focused announcement that fits on a single sheet of HTML.</p>
+    </main>
+    <footer>
+      <p>Built with <code>cmark</code>, <code>awk</code>, and a pinch of shell.</p>
+    </footer>
+  </body>
+</html>
