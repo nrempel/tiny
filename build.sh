@@ -7,51 +7,22 @@ set -eu
 CMARK_BIN=${CMARK:-cmark}
 command -v "$CMARK_BIN" >/dev/null 2>&1 || { echo "tiny: cmark not found" >&2; exit 1; }
 
-usage(){ echo "usage: $0 [template [output [content]]]" >&2; exit 1; }
-
 ROOT="$(cd "$(dirname "$0")" && pwd)"
-DEFAULT_CONTENT="$ROOT/content.md"
-DEFAULT_TEMPLATE="$ROOT/template.html"
-DEFAULT_OUTPUT="$ROOT/index.html"
+[ "$#" -le 3 ] || { echo "usage: $0 [template [output [content]]]" >&2; exit 1; }
+case ${1:-} in -h|--help) echo "usage: $0 [template [output [content]]]" >&2; exit 0;; esac
 
-[ "$#" -le 3 ] || usage
+DEFAULT_TEMPLATE=template.html
+DEFAULT_OUTPUT=index.html
+DEFAULT_CONTENT=content.md
 
-case "${1:-}" in
-	-h|--help) usage;;
-esac
+TEMPLATE=${1:-$DEFAULT_TEMPLATE}
+OUTPUT=${2:-$DEFAULT_OUTPUT}
+CONTENT=${3:-$DEFAULT_CONTENT}
 
-if [ "$#" -ge 1 ]; then
-	TEMPLATE=$1
-else
-	TEMPLATE=$DEFAULT_TEMPLATE
-fi
-
-if [ "$#" -ge 2 ]; then
-	OUTPUT=$2
-else
-	OUTPUT=$DEFAULT_OUTPUT
-fi
-
-if [ "$#" -ge 3 ]; then
-	CONTENT=$3
-else
-	CONTENT=$DEFAULT_CONTENT
-fi
-
-case $TEMPLATE in
-	/*) :;;
-	*) TEMPLATE="$ROOT/$TEMPLATE";;
-esac
-
-case $OUTPUT in
-	/*) :;;
-	*) OUTPUT="$ROOT/$OUTPUT";;
-esac
-
-case $CONTENT in
-	/*) :;;
-	*) CONTENT="$ROOT/$CONTENT";;
-esac
+abs(){ case "$1" in /*) printf '%s' "$1";; *) printf '%s' "$ROOT/$1";; esac; }
+TEMPLATE=$(abs "$TEMPLATE")
+OUTPUT=$(abs "$OUTPUT")
+CONTENT=$(abs "$CONTENT")
 
 [ -f "$TEMPLATE" ] || { echo "tiny: template '$TEMPLATE' not found" >&2; exit 1; }
 [ -f "$CONTENT" ] || { echo "tiny: content '$CONTENT' not found" >&2; exit 1; }
