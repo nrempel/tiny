@@ -7,14 +7,14 @@ set -eu
 CMARK_BIN=${CMARK:-cmark}
 command -v "$CMARK_BIN" >/dev/null 2>&1 || { echo "tiny: cmark not found" >&2; exit 1; }
 
-usage(){ echo "usage: $0 [template [output]]" >&2; exit 1; }
+usage(){ echo "usage: $0 [template [output [content]]]" >&2; exit 1; }
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
-CONTENT="$ROOT/content.md"
+DEFAULT_CONTENT="$ROOT/content.md"
 DEFAULT_TEMPLATE="$ROOT/template.html"
 DEFAULT_OUTPUT="$ROOT/index.html"
 
-[ "$#" -le 2 ] || usage
+[ "$#" -le 3 ] || usage
 
 case "${1:-}" in
 	-h|--help) usage;;
@@ -32,6 +32,12 @@ else
 	OUTPUT=$DEFAULT_OUTPUT
 fi
 
+if [ "$#" -ge 3 ]; then
+	CONTENT=$3
+else
+	CONTENT=$DEFAULT_CONTENT
+fi
+
 case $TEMPLATE in
 	/*) :;;
 	*) TEMPLATE="$ROOT/$TEMPLATE";;
@@ -42,7 +48,13 @@ case $OUTPUT in
 	*) OUTPUT="$ROOT/$OUTPUT";;
 esac
 
+case $CONTENT in
+	/*) :;;
+	*) CONTENT="$ROOT/$CONTENT";;
+esac
+
 [ -f "$TEMPLATE" ] || { echo "tiny: template '$TEMPLATE' not found" >&2; exit 1; }
+[ -f "$CONTENT" ] || { echo "tiny: content '$CONTENT' not found" >&2; exit 1; }
 
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT

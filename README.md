@@ -17,9 +17,9 @@ Tiny is a cheeky static site generator in one shell script. It slices `content.m
    - `{{raw:slug}}` – insert the raw markdown.
 5. **Run Tiny**:
    ```sh
-   ./build.sh [template [output]]
+   ./build.sh [template [output [content]]]
    ```
-   With no arguments Tiny overwrites `index.html` using `template.html`. Supply a different template and optional output path when you want another page.
+   With no arguments Tiny overwrites `index.html` using `template.html` and `content.md`. Supply a different template, optional output path, and optional content file when you want another page.
 6. **Deploy** `index.html` + `styles.css` (and any assets) wherever you like—GitHub Pages, Cloudflare Pages, Netlify, etc.
 
 ### What’s Included
@@ -28,6 +28,7 @@ Tiny is a cheeky static site generator in one shell script. It slices `content.m
 - `content.md` — sample story-driven content.
 - `template.html` — minimal HTML shell showing placeholder usage.
 - `blog-template.html` — a blog layout driven by the same content.
+- `blog.md` — markdown sections that feed the blog example.
 - `index.html` & `blog.html` — generated examples that keep the templates honest.
 - `styles.css` — tiny starter styling so the demo looks decent.
 
@@ -36,7 +37,7 @@ Tiny is a cheeky static site generator in one shell script. It slices `content.m
 - Swap in your own `styles.css` or link to hosted fonts.
 - Generate additional pages with alternate templates:
   ```sh
-  ./build.sh blog-template.html blog.html
+  ./build.sh blog-template.html blog.html blog.md
   ```
 - Duplicate `content.md` / template pairs and wrap Tiny in a loop if you need entirely different copy.
 - `CMARK` env var lets you point to a custom `cmark` binary: `CMARK=/path/to/cmark ./build.sh`.
@@ -48,10 +49,10 @@ Tiny is a cheeky static site generator in one shell script. It slices `content.m
 
 ### Blog Example
 
-`blog-template.html` reuses the sections in `content.md` (`blog-title`, `blog-intro`, `blog-posts`, `blog-footnote`) to produce `blog.html`. Update the markdown headings, rerun
+`blog-template.html` reads sections from `blog.md` (`blog-title`, `blog-intro`, `blog-posts`, `blog-footnote`) to produce `blog.html`. Update the markdown headings, rerun
 ```sh
 ./build.sh
-./build.sh blog-template.html blog.html
+./build.sh blog-template.html blog.html blog.md
 ```
 and the home page will link out to the refreshed blog.
 
