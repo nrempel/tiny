@@ -15,9 +15,28 @@ OUTPUT="$ROOT/index.html"
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 
-awk -v dir="$TMP" 'BEGIN{section=""}/^## /{section=substr($0,4);gsub(/\r/,"",section);section=tolower(section);gsub(/[[:space:]]+/,"-",section);gsub(/[^a-z0-9-]/,"",section);if(section!=""){close(path);path=dir"/"section".md"};next}section!=""{print>path}' "$CONTENT"
+awk -v dir="$TMP" '
+BEGIN{section=""}
+/^## /{
+	section=substr($0,4)
+	gsub(/\r/,"",section)
+	slug=tolower(section)
+	gsub(/[^a-z0-9]+/,"-",slug)
+	gsub(/^-+/,"",slug)
+	gsub(/-+$/,"",slug)
+	if(slug!=""){
+		close(path)
+		path=dir"/"slug".md"
+		section=slug
+	}else{
+		section=""
+	}
+	next
+}
+section!=""{print>path}
+' "$CONTENT"
 
-slugify(){ printf '%s' "$1" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g;s/^-|-$//g'; }
+slugify(){ printf '%s' "$1" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+|-+$//g'; }
 render(){ "$CMARK_BIN" "$TMP/$1.md"; }
 lede(){ render "$1" | sed '0,/<p>/s//<p class="section-lede">/'; }
 plain(){ "$CMARK_BIN" -t commonmark "$TMP/$1.md" | tr '\n' ' ' | sed 's/ \{1,\}$//' | sed -e 's/&/&amp;/g' -e 's/"/&quot;/g' -e "s/'/&#39;/g" -e 's/</&lt;/g' -e 's/>/&gt;/g'; }

@@ -23,4 +23,4 @@ Sometimes you just want to ship a handcrafted page without juggling frameworks, 
 Use Tiny when you need a story-driven landing page, a personal bio, or a focused announcement that fits on a single sheet of HTML.
 
 ## footnote
-Built with `cmark`, `awk`, and a pinch of shell.
+Tiny is built with `cmark`, `awk`, and a pinch of shell. Source on [GitHub](https://github.com/nrempel/tiny).
