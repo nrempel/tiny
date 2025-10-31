@@ -14,3 +14,12 @@ h1, h2, h3 {
   color: #555;
   font-style: italic;
 }
+
+.blog header p:first-child {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.blog .posts h3 {
+  margin-top: 2.5rem;
+}

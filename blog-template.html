@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{plain:blog-title}}</title>
+    <meta name="description" content="{{plain:blog-intro}}">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <article class="blog">
+      <header>
+        <p><a href="index.html">← Back to Tiny</a></p>
+        <h1>{{plain:blog-title}}</h1>
+        {{render:blog-intro}}
+      </header>
+      <section class="posts">
+        {{render:blog-posts}}
+      </section>
+      <footer>
+        {{render:blog-footnote}}
+      </footer>
+    </article>
+  </body>
+</html>
