@@ -8,21 +8,14 @@ CMARK_BIN=${CMARK:-cmark}
 command -v "$CMARK_BIN" >/dev/null 2>&1 || { echo "tiny: cmark not found" >&2; exit 1; }
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
-[ "$#" -le 3 ] || { echo "usage: $0 [template [output [content]]]" >&2; exit 1; }
-case ${1:-} in -h|--help) echo "usage: $0 [template [output [content]]]" >&2; exit 0;; esac
-
-DEFAULT_TEMPLATE=template.html
-DEFAULT_OUTPUT=index.html
-DEFAULT_CONTENT=content.md
-
-TEMPLATE=${1:-$DEFAULT_TEMPLATE}
-OUTPUT=${2:-$DEFAULT_OUTPUT}
-CONTENT=${3:-$DEFAULT_CONTENT}
+U="usage: $0 [template [output [content]]]"
+[ "$#" -le 3 ] || { echo "$U" >&2; exit 1; }
+case ${1:-} in -h|--help) echo "$U" >&2; exit 0;; esac
 
 abs(){ case "$1" in /*) printf '%s' "$1";; *) printf '%s' "$ROOT/$1";; esac; }
-TEMPLATE=$(abs "$TEMPLATE")
-OUTPUT=$(abs "$OUTPUT")
-CONTENT=$(abs "$CONTENT")
+TEMPLATE=$(abs "${1:-template.html}")
+OUTPUT=$(abs "${2:-index.html}")
+CONTENT=$(abs "${3:-content.md}")
 
 [ -f "$TEMPLATE" ] || { echo "tiny: template '$TEMPLATE' not found" >&2; exit 1; }
 [ -f "$CONTENT" ] || { echo "tiny: content '$CONTENT' not found" >&2; exit 1; }
